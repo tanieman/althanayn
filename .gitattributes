@@ -1,0 +1,3 @@
+# أسطر Unix للسكربتات — يمنع فشل Docker/Linux بسبب CRLF من ويندوز
+*.sh text eol=lf
+entrypoint.sh text eol=lf
