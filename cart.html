@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>سلة الطلبات | مزارع الثنيان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #025380;
+            --blue-dark: #01365a;
+            --gray-bg: #f5f5f5;
+            --text: #111;
+            --muted: #707070;
+            --green: #16a34a;
+            --red: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tajawal, system-ui, sans-serif;
+            background: #fafafa;
+            color: var(--text);
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #fff;
+            padding-bottom: 100px;
+            position: relative;
+        }
+
+        .topbar {
+            display: grid;
+            grid-template-columns: 56px 1fr 48px;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+            position: relative;
+        }
+
+        .topbar h1 {
+            grid-column: 2;
+            justify-self: center;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .topbar .back {
+            grid-column: 1;
+            justify-self: start;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 0;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .topbar .back svg {
+            display: block;
+            width: 30px;
+            height: 30px;
+        }
+
+        .topbar .icon-btn,
+        .topbar .head-spacer {
+            grid-column: 3;
+            justify-self: end;
+            width: 38px;
+            height: 38px;
+        }
+
+        .topbar .head-spacer {
+            display: block;
+        }
+
+        .topbar .icon-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            cursor: pointer;
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .eta-strip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--gray-bg);
+            font-size: 14px;
+            font-weight: 600;
+            color: #025380;
+        }
+
+        .eta-strip svg {
+            flex-shrink: 0;
+            color: #025380;
+        }
+
+        .pitem {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* صف: صورة يمين — عمود نص؛ الكمية تحت السعر ومنزّلة لأسفل */
+        .pitem-row {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+.pitem img {
+	width: 80px;
+	height: 80px;
+	border-radius: 12px;
+	overflow: hidden;
+	flex-shrink: 0;
+	background: #f5f5f5;
+	object-fit: cover;
+}
+
+        .pitem-info {
+            flex: 1;
+            min-width: 0;
+            min-height: 96px;
+            text-align: right;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        /* عنوان المنتج: بارز وواضح مثل المرجع */
+.pitem-info h3 {
+	margin: 0 0 8px;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.45;
+	color: #000;
+	letter-spacing: 0.01em;
+	transform: translateY(5px);
+	position: relative;
+	left: 5px;
+}
+
+        .pitem-info .desc {
+            margin: 0 0 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #707070;
+            line-height: 1.5;
+        }
+
+.pitem-info .price {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	color: #000;
+	line-height: 1.3;
+	display: block;
+	transform: translateY(20px);
+	position: relative;
+	left: 4px;
+}
+
+        /* صف الكمية: سطر كامل تحت السعر، وبعدها تُدفع لأسفل البطاقة */
+        .pitem-info .pitem-qty-row {
+            width: 100%;
+            margin-top: auto;
+            padding-top: 14px;
+            display: flex;
+            justify-content: flex-start;
+            flex-shrink: 0;
+        }
+
+.qty-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	background: #f5f5f5;
+	border-radius: 28px;
+	padding: 4px 10px;
+	transform: translateY(-18px);
+	position: relative;
+	left: -172px;
+}
+
+.qty-pill button {
+	width: 26px;
+	height: 26px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+.qty-pill span {
+	font-weight: 800;
+	font-size: 14px;
+	min-width: 18px;
+	text-align: center;
+}
+
+        .panel {
+            margin: 12px 16px;
+            padding: 14px 16px;
+            background: var(--gray-bg);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            border: none;
+            width: calc(100% - 32px);
+            font-family: inherit;
+            cursor: pointer;
+            text-align: right;
+        }
+
+        .panel .panel-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8f0f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+        }
+
+        .panel .panel-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .panel .panel-title {
+            font-weight: 800;
+            font-size: 15px;
+            margin: 0 0 4px;
+        }
+
+        .panel .panel-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .panel .chev {
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .panel-static {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .summary {
+            padding: 8px 16px 24px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 15px;
+        }
+
+        .sum-row .free {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .sum-divider {
+            height: 1px;
+            background: #e8e8e8;
+            margin: 8px 0;
+        }
+
+        .sum-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 800;
+            padding-top: 8px;
+        }
+
+        .legal {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 0 16px 24px;
+            font-size: 12px;
+        }
+
+        .legal a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .legal a:hover {
+            text-decoration: underline;
+        }
+
+        .checkout-sticky {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            padding: 12px 16px 20px;
+            background: linear-gradient(to top, #fff 70%, rgba(255, 255, 255, 0));
+            z-index: 30;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            border: none;
+            border-radius: 28px;
+            background: var(--blue);
+            color: #fff;
+            padding: 16px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 4px 14px rgba(2, 83, 128, 0.35);
+        }
+
+        .checkout-btn:active {
+            background: var(--blue-dark);
+        }
+
+        .checkout-cluster {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .checkout-trailing {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .checkout-trailing .checkout-label {
+            font-weight: 800;
+            font-size: 16px;
+            white-space: nowrap;
+        }
+
+        .checkout-chev {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .checkout-chev svg {
+            display: block;
+        }
+
+        .checkout-btn .badge {
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .checkout-total {
+            font-size: 15px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .empty-wrap {
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .empty-wrap p {
+            color: var(--muted);
+            margin: 0 0 20px;
+            font-size: 16px;
+        }
+
+        .btn-primary-link {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--blue);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 28px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app" id="app"></div>
+    <script>
+        (function () {
+            // يجب أن يطابق index.html (المفتاح والشكل المسطح عند الحفظ)
+            var KEY = "farm_cart";
+            var currency = "د.ك";
+
+            function money(n) {
+                return (Number(n) || 0).toFixed(3) + " " + currency;
+            }
+
+            /** عنصر من index: { id, name, price, image, quantity } */
+            function normalizeItem(raw) {
+                if (!raw || typeof raw !== "object") return null;
+                if (raw.product && typeof raw.product === "object") {
+                    var pr = raw.product;
+                    return {
+                        id: raw.id != null ? raw.id : pr.id,
+                        product: {
+                            name: pr.name || "",
+                            description: pr.description || "",
+                            image: pr.image || "",
+                            price: Number(pr.price) || 0
+                        },
+                        quantity: raw.quantity || 1
+                    };
+                }
+                return {
+                    id: raw.id,
+                    product: {
+                        name: raw.name || "",
+                        description: raw.description || "",
+                        image: raw.image || "",
+                        price: Number(raw.price) || 0
+                    },
+                    quantity: raw.quantity || 1
+                };
+            }
+
+            function denormalizeForStorage(items) {
+                return items.map(function (it) {
+                    var p = it.product || {};
+                    return {
+                        id: it.id != null ? it.id : p.name,
+                        name: p.name || "",
+                        price: Number(p.price) || 0,
+                        image: p.image || "",
+                        description: p.description || "",
+                        quantity: it.quantity || 1
+                    };
+                });
+            }
+
+            function loadCart() {
+                try {
+                    var raw = localStorage.getItem(KEY) || sessionStorage.getItem(KEY);
+                    if (!raw) {
+                        raw = localStorage.getItem("farm_cart_v1") || sessionStorage.getItem("farm_cart_v1");
+                    }
+                    if (!raw) return [];
+                    var arr = JSON.parse(raw);
+                    if (!Array.isArray(arr)) return [];
+                    var out = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var n = normalizeItem(arr[i]);
+                        if (n) out.push(n);
+                    }
+                    return out;
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveCart(items) {
+                try {
+                    var flat = denormalizeForStorage(items);
+                    var s = JSON.stringify(flat);
+                    localStorage.setItem(KEY, s);
+                    sessionStorage.setItem(KEY, s);
+                    try {
+                        localStorage.removeItem("farm_cart_v1");
+                        sessionStorage.removeItem("farm_cart_v1");
+                    } catch (e2) { }
+                } catch (e) { }
+            }
+
+            function escapeHtml(s) {
+                return String(s)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;");
+            }
+
+            function iconBackChevron() {
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 7l5 5-5 5"/></svg>';
+            }
+
+            function iconClock() {
+                return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+            }
+
+            function iconTrash() {
+                return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M10 11v6M14 11v6"/></svg>';
+            }
+
+            function iconHouse() {
+                return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>';
+            }
+
+            function iconPlusCircle() {
+                return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>';
+            }
+
+            function iconChevronLeftCheckout() {
+                return '<span class="checkout-chev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7l-5 5 5 5"/></svg></span>';
+            }
+
+            function bindQty(root) {
+                root.querySelectorAll(".qty-pill button[data-act]").forEach(function (btn) {
+                    btn.onclick = function () {
+                        var i = parseInt(btn.getAttribute("data-idx"), 10);
+                        var list = loadCart();
+                        var it = list[i];
+                        if (!it) return;
+                        if (btn.getAttribute("data-act") === "plus") {
+                            it.quantity = (it.quantity || 0) + 1;
+                        } else {
+                            if (it.quantity > 1) it.quantity--;
+                            else list.splice(i, 1);
+                        }
+                        saveCart(list);
+                        render();
+                    };
+                });
+            }
+
+            function render() {
+                var items = loadCart();
+                var app = document.getElementById("app");
+                var count = items.reduce(function (s, it) {
+                    return s + (it.quantity || 0);
+                }, 0);
+                var subtotal = items.reduce(function (s, it) {
+                    return s + (it.product && it.product.price ? it.product.price * it.quantity : 0);
+                }, 0);
+
+                if (!items.length) {
+                    app.innerHTML =
+                        '<div class="topbar">' +
+                        '<a class="back" href="index.html" aria-label="رجوع">' + iconBackChevron() + "</a>" +
+                        '<h1>سلة الطلبات</h1>' +
+                        '<span class="head-spacer"></span>' +
+                        "</div>" +
+                        '<div class="empty-wrap"><p>السلة فارغة</p><a class="btn-primary-link" href="index.html">تصفح المنتجات</a></div>';
+                    return;
+                }
+
+                var lines = items
+                    .map(function (it, idx) {
+                        var p = it.product || {};
+                        var q = it.quantity || 0;
+                        var img = (p.image || "").replace(/"/g, "");
+                        var descText = (p.description && String(p.description).trim()) || "";
+                        var descBlock = descText
+                            ? '<p class="desc">' + escapeHtml(descText) + "</p>"
+                            : "";
+                        return (
+                            '<div class="pitem">' +
+                            '<div class="pitem-row">' +
+                            '<img src="' +
+                            escapeHtml(img) +
+                            '" alt="" />' +
+                            '<div class="pitem-info">' +
+                            "<h3>" +
+                            escapeHtml(p.name || "") +
+                            "</h3>" +
+                            descBlock +
+                            '<p class="price">' +
+                            money(p.price) +
+                            "</p>" +
+                            '<div class="pitem-qty-row"><div class="qty-pill">' +
+                            '<button type="button" data-act="minus" data-idx="' +
+                            idx +
+                            '">−</button>' +
+                            "<span>" +
+                            q +
+                            "</span>" +
+                            '<button type="button" data-act="plus" data-idx="' +
+                            idx +
+                            '">+</button>' +
+                            "</div></div></div></div></div>"
+                        );
+                    })
+                    .join("");
+
+                app.innerHTML =
+                    '<div class="topbar">' +
+                    '<a class="back" href="index.html" aria-label="رجوع">' + iconBackChevron() + "</a>" +
+                    "<h1>سلة الطلبات</h1>" +
+                    '<button type="button" class="icon-btn" id="trash-all" title="مسح السلة">' +
+                    iconTrash() +
+                    "</button>" +
+                    "</div>" +
+                    '<div class="eta-strip">' +
+                    iconClock() +
+                    '<span class="eta-text">اليوم، خلال 40 دقيقة</span></div>' +
+                    lines +
+                    '<a class="panel" href="index.html"><span class="panel-icon">' +
+                    iconPlusCircle() +
+                    '</span><div class="panel-text"><p class="panel-title">أضف المزيد</p></div><span class="chev">›</span></a>' +
+                    '<div class="panel panel-static">' +
+                    '<span class="panel-icon">' +
+                    iconHouse() +
+                    '</span><div class="panel-text"><p class="panel-title">موقع التوصيل</p><p class="panel-sub">حدد عنوان التوصيل</p></div></div>' +
+                    '<div class="summary">' +
+                    '<div class="sum-row"><span>المنتجات (' +
+                    count +
+                    ")</span><span>" +
+                    money(subtotal) +
+                    "</span></div>" +
+                    '<div class="sum-row"><span>رسوم التوصيل</span><span class="free">مجاني</span></div>' +
+                    '<div class="sum-divider"></div>' +
+                    '<div class="sum-total"><span>المجموع</span><span>' +
+                    money(subtotal) +
+                    "</span></div></div>" +
+                    '<div class="legal"><a href="#">الشروط والأحكام</a><a href="#">سياسة الخصوصية</a></div>' +
+                    '<div class="checkout-sticky">' +
+                    '<button type="button" class="checkout-btn" id="go-checkout">' +
+                    '<span class="checkout-cluster"><span class="badge">' +
+                    count +
+                    '</span><span class="checkout-total">' +
+                    money(subtotal) +
+                    '</span></span><span class="checkout-trailing"><span class="checkout-label">إتمام الطلب</span>' +
+                    iconChevronLeftCheckout() +
+                    "</span></button></div>";
+
+                document.getElementById("trash-all").onclick = function () {
+                    if (confirm("مسح كل المنتجات من السلة؟")) {
+                        saveCart([]);
+                        render();
+                    }
+                };
+                document.getElementById("go-checkout").onclick = function () {
+                    location.href = "checkout.html";
+                };
+                bindQty(app);
+            }
+
+            render();
+            fetch("/api/settings.json")
+                .then(function (r) {
+                    return r.json();
+                })
+                .then(function (s) {
+                    if (s && s.currencyLabel) currency = s.currencyLabel;
+                    render();
+                })
+                .catch(function () { });
+        })();
+    </script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="js/client_track.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "dates-sukkari-royal",
+    "name": "عرض تمر الصقعي الملكي",
+    "description": "بوكس 5 كيلو تمر صقعي ملكي فاخر",
+    "price": 10,
+    "image": "/images/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg"
+  },
+  {
+    "id": "dates-khalas-pressed",
+    "name": "عرض تمر الخلاص المكبوس",
+    "description": "بوكس 8 كيلو تمر الخلاص المكبوس درجة أولى",
+    "price": 4.95,
+    "image": "/images/c33549ec-edf2-4bb5-abcd-96ba0cdbedef.jpeg"
+  },
+  {
+    "id": "fig-bird-50",
+    "name": "عرض 50 عصفور التين",
+    "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+    "price": 7,
+    "image": "/images/b1e33884-b459-46fa-af37-0a2543e42536.jpeg"
+  },
+  {
+    "id": "duck-french-box-5",
+    "name": "عرض 5 بطات فرنسي",
+    "description": "بوكس 5 بطات فرنسي عمر 4 - 5 شهور",
+    "price": 10,
+    "image": "/images/5a95d27a-0c90-43f9-9c73-d1df48e37886.jpeg"
+  },
+  {
+    "id": "duck-french-box-10",
+    "name": "عرض 10 بطات فرنسي",
+    "description": "بوكس 10 بطات فرنسي عمر 4 - 5 شهور",
+    "price": 20,
+    "image": "/images/3652bc4f-a67e-4963-bf25-6a463c01f9ed.jpeg"
+  },
+  {
+    "id": "duck-french-single",
+    "name": "بطة فرنسي",
+    "description": "بطة فرنسي عمر 4 - 5 شهور",
+    "price": 4,
+    "image": "/images/e1bcf548-843f-49f7-88e3-93b9e7107897.jpeg"
+  },
+  {
+    "id": "pigeon-box-5",
+    "name": "بوكس 5 حمامات",
+    "description": "بوكس 5 حمامات - طازج وزن 750 جرام",
+    "price": 4,
+    "image": "/images/8938fced-0904-44ff-9a3f-d36f79c21178.png"
+  },
+  {
+    "id": "pigeon-box-10",
+    "name": "بوكس 10 حمامات",
+    "description": "بوكس 10 حمامات - ظازج وزن 750 جرام.",
+    "price": 20,
+    "image": "/images/635f639f-0bc5-4a22-9aa7-945c52b8966f.png"
+  },
+  {
+    "id": "pigeon-box-20",
+    "name": "بوكس 20 حمامة",
+    "description": "بوكس 20 حمامات - ظازج وزن 750 جرام.",
+    "price": 35,
+    "image": "/images/bcedc6a5-8782-4eef-9f45-6458ebe6cd2b.jpeg"
+  },
+  {
+    "id": "homing-box-10",
+    "name": "بوكس 10 حمامات زاجل",
+    "description": "بوكس 10 حمامات زاجل - طازج وزن 850 جرام",
+    "price": 20,
+    "image": "/images/2c655e2c-f49b-4edc-910d-30991017b560.jpeg"
+  },
+  {
+    "id": "homing-box-20",
+    "name": "البوكس الصغير - سمك البلطي",
+    "description": "بوكس سمك بلطي طازج 5 كيلو.",
+    "price": 12,
+    "image": "/images/5908832f-f5bc-4d44-b4f2-eddfe7b9930c.jpeg"
+  },
+    {
+    "id": "homing-box-21",
+    "name": "البوكس الكبير - سمك البلطي",
+    "description": "بوكس سمك بلطي طازج 10 كيلو.",
+    "price": 20,
+    "image": "/images/c248266a-eb01-4f61-8d56-377230c57b37.jpeg"
+  },
+  {
+    "id": "chicken-sasso-box-10",
+    "name": "بوكس 10 دجاج عربي ساسو",
+    "description": "بوكس 10 دجاجات عربي ساسو - طازج وزن 1000 - 1300 جرام",
+    "price": 20,
+    "image": "/images/afeb5a99-daae-47cd-9768-0ec1094ec13f.jpeg"
+  }
+]

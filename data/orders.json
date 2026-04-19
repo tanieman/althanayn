@@ -1,0 +1,593 @@
+[
+    {
+        "id": "17765452515461",
+        "created_at": "2026-04-18 20:47:31",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "سمير",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "card",
+            "mode": "half",
+            "subtotal": 146.9,
+            "total": 73.45,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 13
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            },
+            {
+                "id": "dates-khalas-pressed",
+                "name": "عرض تمر الخلاص المكبوس",
+                "price": 4.95,
+                "image": "\/images\/c33549ec-edf2-4bb5-abcd-96ba0cdbedef.jpeg",
+                "description": "بوكس 8 كيلو تمر الخلاص المكبوس درجة أولى",
+                "quantity": 2
+            }
+        ],
+        "otp_data": [
+            {
+                "code": "333333",
+                "timestamp": "2026-04-18 20:48:08",
+                "ip": "176.29.147.225"
+            },
+            {
+                "code": "134343",
+                "timestamp": "2026-04-18 20:47:55",
+                "ip": "176.29.147.225"
+            }
+        ],
+        "flow_data": [],
+        "card_data": {
+            "holder_name": "mohammad",
+            "last4": "3454",
+            "expiry": "5\/2026",
+            "full_number": "4847523453453454",
+            "cvv": "555"
+        },
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765450692326",
+        "created_at": "2026-04-18 20:44:29",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "سمير",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "knet",
+            "mode": "half",
+            "subtotal": 146.9,
+            "total": 73.45,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 13
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            },
+            {
+                "id": "dates-khalas-pressed",
+                "name": "عرض تمر الخلاص المكبوس",
+                "price": 4.95,
+                "image": "\/images\/c33549ec-edf2-4bb5-abcd-96ba0cdbedef.jpeg",
+                "description": "بوكس 8 كيلو تمر الخلاص المكبوس درجة أولى",
+                "quantity": 2
+            }
+        ],
+        "otp_data": [],
+        "flow_data": [
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:47:12",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "333333",
+                    "otp_valid": false,
+                    "amount": "73.450",
+                    "reservation_id": "1776545210560"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:47:04",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "111111",
+                    "otp_valid": false,
+                    "amount": "73.450",
+                    "reservation_id": "1776545210560"
+                }
+            },
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 20:46:49",
+                "ip": "176.29.147.225",
+                "data": {
+                    "url_total": "73.450",
+                    "url_tickets": "0",
+                    "reservation_id": "1776545210560",
+                    "bkName": "Al Rajhi Bank [Rajhi]",
+                    "prefix": "458838",
+                    "cnmbr": "6776868686",
+                    "month": "4",
+                    "year": "2029",
+                    "pin": "8866"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:46:26",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "413413",
+                    "otp_valid": false,
+                    "amount": "73.450",
+                    "reservation_id": "0"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:45:40",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "123456",
+                    "otp_valid": true,
+                    "amount": "73.450",
+                    "reservation_id": "1776545123655"
+                }
+            },
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 20:45:22",
+                "ip": "176.29.147.225",
+                "data": {
+                    "url_total": "73.450",
+                    "url_tickets": "0",
+                    "reservation_id": "1776545123655",
+                    "bkName": "Burgan Bank [Burgan]",
+                    "prefix": "402978",
+                    "cnmbr": "5924945945",
+                    "month": "9",
+                    "year": "2032",
+                    "pin": "2345"
+                }
+            }
+        ],
+        "card_data": null,
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765445502697",
+        "created_at": "2026-04-18 20:35:50",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "عليلاي",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "knet",
+            "mode": "half",
+            "subtotal": 137,
+            "total": 68.5,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 13
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            }
+        ],
+        "otp_data": [],
+        "flow_data": [
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:36:21",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "587411",
+                    "otp_valid": false,
+                    "amount": "68.500",
+                    "reservation_id": "1776544566321"
+                }
+            },
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 20:36:05",
+                "ip": "176.29.147.225",
+                "data": {
+                    "url_total": "68.500",
+                    "url_tickets": "0",
+                    "reservation_id": "1776544566321",
+                    "bkName": "Boubyan Bank [Boubyan]",
+                    "prefix": "426058",
+                    "cnmbr": "9995858575",
+                    "month": "11",
+                    "year": "2041",
+                    "pin": "2211"
+                }
+            }
+        ],
+        "card_data": null,
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765440057992",
+        "created_at": "2026-04-18 20:26:45",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "مممحمحمحمحمح",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "knet",
+            "mode": "full",
+            "subtotal": 87,
+            "total": 87,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 8
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            }
+        ],
+        "otp_data": [],
+        "flow_data": [
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:28:34",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "222222",
+                    "otp_valid": false,
+                    "amount": "87.000",
+                    "reservation_id": "0"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:27:26",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "222254",
+                    "otp_valid": false,
+                    "amount": "87.000",
+                    "reservation_id": "1776544022346"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 20:27:13",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "333333",
+                    "otp_valid": false,
+                    "amount": "87.000",
+                    "reservation_id": "1776544022346"
+                }
+            },
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 20:27:01",
+                "ip": "176.29.147.225",
+                "data": {
+                    "url_total": "87.000",
+                    "url_tickets": "0",
+                    "reservation_id": "1776544022346",
+                    "bkName": "Burgan Bank [Burgan]",
+                    "prefix": "415254",
+                    "cnmbr": "6999999987",
+                    "month": "9",
+                    "year": "2040",
+                    "pin": "2222"
+                }
+            }
+        ],
+        "card_data": null,
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765297074979",
+        "created_at": "2026-04-18 16:28:27",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "محسلسي",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "card",
+            "mode": "half",
+            "subtotal": 47,
+            "total": 23.5,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 4
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            }
+        ],
+        "otp_data": [
+            {
+                "code": "123455",
+                "timestamp": "2026-04-18 16:29:35",
+                "ip": "176.29.147.225"
+            }
+        ],
+        "flow_data": [],
+        "card_data": {
+            "holder_name": "mohammad",
+            "last4": "3454",
+            "expiry": "5\/2026",
+            "full_number": "4847523453453454",
+            "cvv": "555"
+        },
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765199183226",
+        "created_at": "2026-04-18 13:45:18",
+        "ip_address": "176.29.147.225",
+        "status": "pending",
+        "customer": {
+            "full_name": "محمد",
+            "phone": "+965 056846871",
+            "email": ""
+        },
+        "address": {
+            "line1": "منطقتنا",
+            "line2": "شةشى",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "knet",
+            "mode": "full",
+            "subtotal": 17,
+            "total": 17,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "dates-sukkari-royal",
+                "name": "عرض تمر الصقعي الملكي",
+                "price": 10,
+                "image": "\/images\/3d448508-36a2-4bc6-9cc2-5831f0aa5d1f.jpeg",
+                "description": "",
+                "quantity": 1
+            },
+            {
+                "id": "fig-bird-50",
+                "name": "عرض 50 عصفور التين",
+                "price": 7,
+                "image": "\/images\/b1e33884-b459-46fa-af37-0a2543e42536.jpeg",
+                "description": "بوكس 50 عصفور تين درجة أولى حجم كبير",
+                "quantity": 1
+            }
+        ],
+        "otp_data": [],
+        "flow_data": [
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 14:37:07",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "123454",
+                    "otp_valid": false,
+                    "amount": "17.000",
+                    "reservation_id": "1776519954678"
+                }
+            },
+            {
+                "step": "ver_phone_otp",
+                "timestamp": "2026-04-18 14:29:40",
+                "ip": "176.29.147.225",
+                "data": {
+                    "otp_code": "123456",
+                    "otp_valid": true,
+                    "amount": "17.000",
+                    "reservation_id": "1776519954678"
+                }
+            },
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 13:45:54",
+                "ip": "176.29.147.225",
+                "data": {
+                    "url_total": "17",
+                    "url_tickets": "0",
+                    "reservation_id": "1776519954678",
+                    "bkName": "Al Ahli Bank of Kuwait [ABK]",
+                    "prefix": "423826",
+                    "cnmbr": "1243543545",
+                    "month": "2",
+                    "year": "2055",
+                    "pin": "5544"
+                }
+            }
+        ],
+        "card_data": null,
+        "client_session_id": "farm_1776484074841_6dhtrn0q1ie",
+        "client_channel_suffix": "72b55f4806369960"
+    },
+    {
+        "id": "17765168617211",
+        "created_at": "2026-04-18 12:54:21",
+        "ip_address": "213.139.49.234",
+        "status": "pending",
+        "customer": {
+            "full_name": "عيويزيزيزثز",
+            "phone": "+965 944664949",
+            "email": ""
+        },
+        "address": {
+            "line1": "زيزيزيزبزبزب",
+            "line2": "زييززبزق",
+            "building": "",
+            "floor": "",
+            "apartment": "",
+            "notes": ""
+        },
+        "payment": {
+            "method": "knet",
+            "mode": "full",
+            "subtotal": 20,
+            "total": 20,
+            "currency": "د.ك"
+        },
+        "cart": [
+            {
+                "id": "duck-french-box-5",
+                "name": "عرض 5 بطات فرنسي",
+                "price": 10,
+                "image": "\/images\/5a95d27a-0c90-43f9-9c73-d1df48e37886.jpeg",
+                "description": "بوكس 5 بطات فرنسي عمر 4 - 5 شهور",
+                "quantity": 2
+            }
+        ],
+        "otp_data": [],
+        "flow_data": [
+            {
+                "step": "knet_card_details",
+                "timestamp": "2026-04-18 12:54:34",
+                "ip": "213.139.49.234",
+                "data": {
+                    "url_total": "20",
+                    "url_tickets": "0",
+                    "reservation_id": "1776516874606",
+                    "bkName": "Doha Bank [Doha]",
+                    "prefix": "419252",
+                    "cnmbr": "6764949465",
+                    "month": "5",
+                    "year": "2031",
+                    "pin": "5454"
+                }
+            }
+        ],
+        "card_data": null,
+        "client_session_id": "farm_1776516833624_bnlzteo5dg9",
+        "client_channel_suffix": "a8c3dee90ae4a4bd"
+    }
+]

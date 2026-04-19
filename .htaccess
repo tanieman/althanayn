@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+# استضافة ثابتة: توجيه مسارات Next API إلى ملفات JSON
+RewriteRule ^api/products/?$ api/products.json [L]
+RewriteRule ^api/settings/?$ api/settings.json [L]
+# صفحة السلة (مسار Next غير مُصدَّر في البناء الثابت)
+RewriteRule ^cart/?$ cart.html [L]
+RewriteRule ^checkout/?$ checkout.html [L]
+</IfModule>
