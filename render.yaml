@@ -1,0 +1,11 @@
+# نشر على Render: Web Service من Dockerfile
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: php-store
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
